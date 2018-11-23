@@ -3,6 +3,7 @@ import tkinter.messagebox
 
 color_number = 1 #每次运行都是黑棋先走
 size = 16
+stop = 0
  
 chess = [[0 for i in range(size+1)] for i in range(size+1)]
 
@@ -11,7 +12,7 @@ def paint(event):
     global color_number
 
     if event.x % 30 > 15 :
-        event.x = event.x//30 + 1
+        event.x = event.x//30 + 1 
     else:
         event.x = event.x // 30
     if event.y % 30 > 15:
@@ -30,21 +31,23 @@ def paint(event):
     #确定下棋坐标
     x1, y1 = (event.x*30 - 15), (event.y*30 - 15)
     x2, y2 = (event.x*30 + 15), (event.y*30 + 15)
- 
-    if chess[event.x][event.y] == 0: 
-        if color_number == 1:
-            canvas.create_oval(x1, y1, x2, y2, fill="black",tags = "oval")
-            chess[event.x][event.y] = 1
-            gameover(event.x,event.y)
-            color_number = 0
-        elif color_number == 0:
-            canvas.create_oval(x1, y1, x2, y2, fill="white",tags = "oval")
-            chess[event.x][event.y] = 2
-            gameover(event.x,event.y)
-            color_number = 1
+    if stop == 0:
+        if chess[event.x][event.y] == 0: 
+            if color_number == 1:
+                canvas.create_oval(x1, y1, x2, y2, fill="black",tags = "oval")
+                chess[event.x][event.y] = 1
+                gameover(event.x,event.y)
+                color_number = 0
+            elif color_number == 0:
+                canvas.create_oval(x1, y1, x2, y2, fill="white",tags = "oval")
+                chess[event.x][event.y] = 2
+                gameover(event.x,event.y)
+                color_number = 1
             
 def wininfo(): #提示窗口
+    global stop
     tkinter.messagebox.showinfo("", "Game over")
+    stop = 1
             
 def  gameover(xx, yy):
    
